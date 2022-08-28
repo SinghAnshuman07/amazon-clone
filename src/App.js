@@ -4,16 +4,18 @@ import './App.css';
 import Home from './Home'
 import Header from './Header'
 import Checkout from './Checkout'
+import Login from './Login'
 
 function App() {
   return (
     <Router>
     <React.StrictMode>
       <div className="app">
-        <Header />
+        {/* <Header /> */}
         <Routes>
-          <Route path="/" element={[ <Home />]} exact />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/" element={[ <Header />,<Home />]} exact />
+          <Route path="/checkout" element={[<Header />,<Checkout />]} />
+          <Route path="/login" element={[<Login />]} />
         </Routes>
       </div>
     </React.StrictMode>
