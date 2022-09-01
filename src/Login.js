@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { auth } from './firebase';
 import './Login.css'
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
-    const[password, setPAssword] = useState('');
+    const [password, setPassword] = useState('');
 
     const signIn = e => {
         e.preventDefault();
 
         //Firebase login
+        auth.signInWithEmailAndPassword(email, password)
+            .then(auth => {
+                navigate('/')
+            })
+            .catch(error => alert(error.message))
 
     }
 
@@ -17,6 +24,15 @@ function Login() {
         e.preventDefault();
 
         //Firebase Register
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((auth) => {
+            //Successfully created new user with email and password
+                console.log(auth);
+                if(auth) {
+                    navigate('/')
+                }
+             })
+            .catch(error => alert(error.message))
     }
 
     return (
@@ -36,7 +52,7 @@ function Login() {
                     <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
 
                     <h5>Password</h5>
-                    <input type='password' value={password} onChange={e => setPAssword(e.target.value)}/>
+                    <input type='password' value={password} onChange={e => setPassword(e.target.value)}/>
 
                     <button type='submit' onClick={signIn} className='login_signInButton'>Sign In</button>
                 </form>
